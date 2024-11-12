@@ -3,7 +3,7 @@ import UserAccount from "../../components/UserAccount";
 import { User } from "../../entities";
 import { screen } from "@testing-library/dom";
 
-describe("UserAccgitount", () => {
+describe("UserAccount", () => {
   it("should render username", () => {
     const user: User = {
       id: 1,
