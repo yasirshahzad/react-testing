@@ -1,0 +1,18 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ProductImageGallery > should render the image gallery 1`] = `
+<div>
+  <ul>
+    <li>
+      <img
+        src="https://example.com/image1.jpg"
+      />
+    </li>
+    <li>
+      <img
+        src="https://example.com/image2.jpg"
+      />
+    </li>
+  </ul>
+</div>
+`;
