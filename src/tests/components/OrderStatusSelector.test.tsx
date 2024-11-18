@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { findByRole, render, screen } from "@testing-library/react";
 import OrderStatusSelector from "../../components/OrderStatusSelector";
 import { Theme } from "@radix-ui/themes";
 import userEvent from "@testing-library/user-event";
@@ -22,6 +22,7 @@ describe("OrderStatusSelector", () => {
       onChange,
       user,
       comboBox: screen.getByRole("combobox"),
+      options: async () => screen.getAllByRole("option"),
     };
   };
 
@@ -32,12 +33,12 @@ describe("OrderStatusSelector", () => {
   });
 
   it("should render the order status selector", async () => {
-    const { user, comboBox } = renderUi();
+    const { user, comboBox, options } = renderUi();
 
     expect(comboBox).toBeInTheDocument();
     await user.click(comboBox);
 
-    const allOptions = await screen.findAllByRole("option");
+    const allOptions = await options();
 
     expect(allOptions).toHaveLength(3);
     expect(allOptions.map((option) => option.textContent)).toEqual([
@@ -46,4 +47,27 @@ describe("OrderStatusSelector", () => {
       "Fulfilled",
     ]);
   });
+
+  it.each([
+    {
+      label: /processed/i,
+      value: "processed",
+    },
+    {
+      label: /fulfilled/i,
+      value: "fulfilled",
+    },
+  ])(
+    "should call the onChange with $value when $label option is selected",
+    async ({ value, label }) => {
+      const { comboBox, user, onChange } = renderUi();
+
+      await user.click(comboBox);
+      const option = await screen.findByRole("option", { name: label });
+
+      await user.click(option);
+
+      expect(onChange).toHaveBeenCalledWith(value);
+    }
+  );
 });
