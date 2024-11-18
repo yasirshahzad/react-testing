@@ -9,20 +9,33 @@ window.HTMLElement.prototype.hasPointerCapture = vi.fn();
 window.HTMLElement.prototype.releasePointerCapture = vi.fn();
 
 describe("OrderStatusSelector", () => {
-  it("should render the order status selector", async () => {
+  const renderUi = () => {
     const onChange = vi.fn();
-
     render(
       <Theme>
         <OrderStatusSelector onChange={onChange} />
       </Theme>
     );
-
     const user = userEvent.setup();
-    const btn = screen.getByRole("combobox");
 
-    expect(btn).toBeInTheDocument();
-    await user.click(btn);
+    return {
+      onChange,
+      user,
+      comboBox: screen.getByRole("combobox"),
+    };
+  };
+
+  it("should render OrderStatusSelector with default value", () => {
+    const { comboBox } = renderUi();
+    expect(comboBox).toBeInTheDocument();
+    expect(screen.getByText("New")).toBeInTheDocument();
+  });
+
+  it("should render the order status selector", async () => {
+    const { user, comboBox } = renderUi();
+
+    expect(comboBox).toBeInTheDocument();
+    await user.click(comboBox);
 
     const allOptions = await screen.findAllByRole("option");
 
