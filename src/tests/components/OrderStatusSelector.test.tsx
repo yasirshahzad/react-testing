@@ -11,6 +11,7 @@ window.HTMLElement.prototype.releasePointerCapture = vi.fn();
 describe("OrderStatusSelector", () => {
   it("should render the order status selector", async () => {
     const onChange = vi.fn();
+
     render(
       <Theme>
         <OrderStatusSelector onChange={onChange} />
@@ -26,5 +27,10 @@ describe("OrderStatusSelector", () => {
     const allOptions = await screen.findAllByRole("option");
 
     expect(allOptions).toHaveLength(3);
+    expect(allOptions.map((option) => option.textContent)).toEqual([
+      "New",
+      "Processed",
+      "Fulfilled",
+    ]);
   });
 });
