@@ -1,6 +1,11 @@
 import "@testing-library/jest-dom/vitest";
 
+beforeAll(() => server.listen());
+afterEach(() => server.resetHandlers());
+afterAll(() => server.close());
+
 import ResizeObserver from "resize-observer-polyfill";
+import { server } from "./mock/server";
 global.ResizeObserver = ResizeObserver;
 
 Object.defineProperty(window, "matchMedia", {

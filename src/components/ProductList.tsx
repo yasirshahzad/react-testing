@@ -20,7 +20,8 @@ const ProductList = () => {
         else setError("An unexpected error occurred");
       }
     };
-    fetchProducts();
+
+    void fetchProducts();
   }, []);
 
   if (isLoading) return <div>Loading...</div>;
